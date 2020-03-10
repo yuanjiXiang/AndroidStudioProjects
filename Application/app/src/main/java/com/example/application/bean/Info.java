@@ -1,0 +1,32 @@
+package com.example.application.bean;
+
+import cn.bmob.v3.BmobObject;
+
+public class Info extends BmobObject {
+    private String  author;
+    private String title, content;
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+}
