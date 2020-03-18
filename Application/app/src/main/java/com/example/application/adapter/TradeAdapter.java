@@ -1,6 +1,7 @@
 package com.example.application.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.application.R;
 import com.example.application.bean.Trade;
+import com.example.application.personal.Goods_owner_info;
 
 import java.util.List;
 
@@ -66,6 +68,16 @@ public class TradeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder >
                 .override(500,500)
                 .centerCrop()
                 .into(recyclerViewHolder.imageView);
+
+        // 点击物品，进入物品详情页，包括物品发布者信息
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, Goods_owner_info.class);
+                intent.putExtra("id",trade1.getObjectId());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

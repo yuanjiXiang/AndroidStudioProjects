@@ -58,7 +58,7 @@
         app:layout_constraintGuide_percent="0.9" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/my_goods"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="151dp"
@@ -142,5 +142,13 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.2" />
+
+    <Button
+        android:id="@+id/create_goods"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="新建商品"
+        app:layout_constraintBaseline_toBaselineOf="@+id/my_goods"
+        app:layout_constraintStart_toStartOf="@+id/create" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

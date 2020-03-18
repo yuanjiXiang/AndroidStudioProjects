@@ -36,6 +36,9 @@
         <activity android:name=".RegisterPage"/>
         <activity android:name=".personal.CreateInfo"/>
         <activity android:name=".personal.ModifyPersonalInfo"/>
+        <activity android:name=".personal.CreateGoods"/>
+        <activity android:name=".personal.Goods_detail"/>
+        <activity android:name=".personal.Goods_owner_info"/>
 
 
         <provider

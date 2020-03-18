@@ -1,10 +1,23 @@
 package com.example.application.bean;
 
-public class Trade {
+import android.hardware.usb.UsbRequest;
+
+import cn.bmob.v3.BmobObject;
+
+public class Trade extends BmobObject {
     private String price;
     private String description;
     private String img_url;
     private String owner;
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public String getPrice() {
         return price;

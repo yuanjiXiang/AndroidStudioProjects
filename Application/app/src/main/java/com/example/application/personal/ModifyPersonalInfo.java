@@ -12,12 +12,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.application.MainActivity;
 import com.example.application.R;
 import com.example.application.bean.User;
-import com.example.application.ui.MyFragment;
 
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
-import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
+
+/**
+ * 个人信息修改页
+ */
 
 public class ModifyPersonalInfo extends AppCompatActivity {
 

@@ -1,35 +1,26 @@
 package com.example.application.adapter;
 
-import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.application.R;
 import com.example.application.bean.Info;
-import com.example.application.bean.User;
 
 import java.util.List;
-import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.UpdateListener;
 
 public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Info> data;
-    private Context context;
     private String objectId;
-    public MyAdapter(Context context, List<Info> data) {
+    public MyAdapter( List<Info> data) {
         this.data = data;
-        this.context = context;
     }
     class RecyclerViewHolder extends RecyclerView.ViewHolder {
 

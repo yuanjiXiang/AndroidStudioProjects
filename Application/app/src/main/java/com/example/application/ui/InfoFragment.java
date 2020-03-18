@@ -3,7 +3,6 @@ package com.example.application.ui;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,18 +28,15 @@ import cn.bmob.v3.listener.FindListener;
  * A simple {@link Fragment} subclass.
  */
 public class InfoFragment extends Fragment {
-
     private RecyclerView rv;
     private SwipeRefreshLayout swipe;
     List<Info> data;
     private InfoAdapter infoAdapter;
 
     private void initView() {
-        rv = getActivity().findViewById(R.id.recyclerview);
+        rv = getActivity().findViewById(R.id.recyclerView);
         swipe = getActivity().findViewById(R.id.swipe);
     }
-
-
 
     private void Refresh() {
         BmobQuery<Info> Po = new BmobQuery<>();
@@ -49,9 +45,6 @@ public class InfoFragment extends Fragment {
         Po.findObjects(new FindListener<Info>() {
             @Override
             public void done(List<Info> list, BmobException e) {
-                // 停止刷新
-                swipe.setRefreshing(false);
-
                 if (e == null) {
                     data = list;
                     infoAdapter = new InfoAdapter(getActivity(),data);
@@ -64,8 +57,6 @@ public class InfoFragment extends Fragment {
             }
         });
     }
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -85,6 +76,7 @@ public class InfoFragment extends Fragment {
             @Override
             public void onRefresh() {
                 Refresh();
+                swipe.setRefreshing(false);
             }
         });
     }

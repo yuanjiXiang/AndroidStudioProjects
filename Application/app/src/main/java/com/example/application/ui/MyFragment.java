@@ -1,7 +1,6 @@
 package com.example.application.ui;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -18,18 +17,21 @@ import android.widget.Toast;
 import com.example.application.LoginPage;
 import com.example.application.R;
 import com.example.application.bean.User;
+import com.example.application.personal.CreateGoods;
 import com.example.application.personal.CreateInfo;
 import com.example.application.personal.ModifyPersonalInfo;
 
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.http.I;
 
 /**
  * A simple {@link Fragment} subclass.
+ * 个人页面
  */
 public class MyFragment extends Fragment {
 
     private TextView username, stu_num, phone, email;
-    private Button login_out_btn, myPublish, create_btn, modify_person;
+    private Button login_out_btn, myPublish, create_btn, modify_person, create_goods, my_goods;
 
 
     @Override
@@ -72,6 +74,14 @@ public class MyFragment extends Fragment {
             }
         });
 
+        // 进入修改个人信息页面
+        modify_person.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), ModifyPersonalInfo.class));
+            }
+        });
+
         // 进入个人文章详情页
         myPublish.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_myFragment_to_personalInfoFragment, null));
 
@@ -83,14 +93,17 @@ public class MyFragment extends Fragment {
             }
         });
 
-        // 进入修改个人信息页面
-        modify_person.setOnClickListener(new View.OnClickListener() {
+
+        // 进入新建商品页面
+        create_goods.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), ModifyPersonalInfo.class));
+                startActivity(new Intent(getContext(), CreateGoods.class));
             }
         });
 
+        // 进入我的商品页
+        my_goods.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_myFragment_to_personalGoodsFragment,null));
     }
     private void initUI(){
         username = getActivity().findViewById(R.id.username);
@@ -101,5 +114,7 @@ public class MyFragment extends Fragment {
         phone = getActivity().findViewById(R.id.phone);
         email = getActivity().findViewById(R.id.email);
         modify_person = getActivity().findViewById(R.id.modify_person);
+        create_goods =getActivity().findViewById(R.id.create_goods);
+        my_goods = getActivity().findViewById(R.id.my_goods);
     }
 }

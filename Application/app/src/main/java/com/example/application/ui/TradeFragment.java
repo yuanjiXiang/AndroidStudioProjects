@@ -5,8 +5,8 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +17,6 @@ import com.example.application.R;
 import com.example.application.adapter.TradeAdapter;
 import com.example.application.bean.Trade;
 
-import java.lang.annotation.Target;
 import java.util.List;
 
 import cn.bmob.v3.Bmob;
@@ -33,26 +32,30 @@ public class TradeFragment extends Fragment {
     private RecyclerView rv;
     List<Trade> trade;
     private TradeAdapter tradeAdapter;
+    private SwipeRefreshLayout swipe;
 
     private void initUI() {
         rv = getActivity().findViewById(R.id.recyclerViewTrade);
+        swipe = getActivity().findViewById(R.id.swipe);
     }
 
     private void refresh() {
         BmobQuery<Trade> bq = new BmobQuery<>();
 
-        final GridLayoutManager layoutManager2 = new GridLayoutManager(getContext(),2);
+        final GridLayoutManager layoutManager2 = new GridLayoutManager(getContext(), 2);
 
         bq.findObjects(new FindListener<Trade>() {
             @Override
             public void done(List<Trade> list, BmobException e) {
+                swipe.setRefreshing(false);
                 if (e == null) {
                     trade = list;
-                    tradeAdapter = new TradeAdapter(getActivity(),trade);
+                    tradeAdapter = new TradeAdapter(getActivity(), trade);
                     rv.setLayoutManager(layoutManager2);
                     rv.setAdapter(tradeAdapter);
                 } else {
-                    Toast.makeText(getActivity(),"获取数据失败"+e.toString(),Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "获取数据失败" + e.toString(), Toast.LENGTH_LONG).show();
+                    swipe.setRefreshing(false);
                 }
             }
         });
@@ -70,8 +73,13 @@ public class TradeFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         Bmob.initialize(getActivity(), "9d17f643cf72354bae0d2fddfd037a2a");
 
-
         initUI();
         refresh();
+        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh();
+            }
+        });
     }
 }

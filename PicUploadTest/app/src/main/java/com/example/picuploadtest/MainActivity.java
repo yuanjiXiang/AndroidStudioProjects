@@ -2,7 +2,7 @@ package com.example.picuploadtest;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ProgressDialog;
+
 import android.content.Intent;
 
 import android.graphics.BitmapFactory;
@@ -10,27 +10,22 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 
-import android.util.Log;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-
-import com.tencent.cos.xml.CosXmlService;
-import com.tencent.cos.xml.CosXmlServiceConfig;
-import com.tencent.cos.xml.exception.CosXmlClientException;
-import com.tencent.cos.xml.exception.CosXmlServiceException;
-import com.tencent.cos.xml.listener.CosXmlProgressListener;
-import com.tencent.cos.xml.model.object.GetObjectRequest;
-import com.tencent.cos.xml.model.object.GetObjectResult;
-import com.tencent.qcloud.core.auth.QCloudCredentialProvider;
-import com.tencent.qcloud.core.auth.ShortTimeCredentialProvider;
 import com.wildma.pictureselector.PictureBean;
 import com.wildma.pictureselector.PictureSelector;
 
 import java.io.File;
 import java.io.IOException;
+
+import cn.bmob.v3.Bmob;
+import cn.bmob.v3.datatype.BmobFile;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.UploadFileListener;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,6 +38,35 @@ public class MainActivity extends AppCompatActivity {
 
         final Button button = findViewById(R.id.button);
         final Button button2 = findViewById(R.id.button2);
+        final Button button3 = findViewById(R.id.button3);
+
+        Bmob.initialize(this,"9d17f643cf72354bae0d2fddfd037a2a");
+
+        button3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String picPath = "/storage/emulated/0/Download/timg.jpeg";
+                final BmobFile bmobFile = new BmobFile(new File(picPath));
+                bmobFile.uploadblock(new UploadFileListener() {
+
+                    @Override
+                    public void done(BmobException e) {
+                        if(e==null){
+                            //bmobFile.getFileUrl()--返回的上传文件的完整地址
+                            Toast.makeText(MainActivity.this,"上传文件成功:" + bmobFile.getFileUrl(),Toast.LENGTH_LONG).show();
+                        }else{
+                            Toast.makeText(MainActivity.this,"上传文件失败:" +  e.getMessage(),Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+
+                    @Override
+                    public void onProgress(Integer value) {
+                        // 返回的上传进度（百分比）
+                    }
+                });
+            }
+        });
 
 
         button.setOnClickListener(new View.OnClickListener() {
@@ -103,11 +127,6 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     imageView.setImageURI(pictureBean.getUri());
                 }
-
-                //使用 Glide 加载图片
-                /*Glide.with(this)
-                        .load(pictureBean.isCut() ? pictureBean.getPath() : pictureBean.getUri())
-                        .apply(RequestOptions.centerCropTransform()).into(mIvImage);*/
             }
         }
     }
