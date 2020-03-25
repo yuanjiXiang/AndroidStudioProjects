@@ -11,9 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.application.LoginPage;
 import com.example.application.R;
 import com.example.application.bean.User;
@@ -32,6 +34,8 @@ public class MyFragment extends Fragment {
 
     private TextView username, stu_num, phone, email;
     private Button login_out_btn, myPublish, create_btn, modify_person, create_goods, my_goods;
+    private ImageView portrait;
+    private String default_portrait_url = "https://bmob-cdn-27983.bmobpay.com/2020/03/24/cf447d164086182c80f53ba88700c410.jpg";
 
 
     @Override
@@ -48,22 +52,33 @@ public class MyFragment extends Fragment {
 
         initUI();
 
-        // 判断登录状态，获取用户信息
-        if (BmobUser.isLogin()) {
-            User user = BmobUser.getCurrentUser(User.class);
-            username.setText(user.getUsername());
-            if (user.getStu_num() != "") {
-                stu_num.setText(user.getStu_num());
-            }
-            if (user.getMobilePhoneNumber() != "") {
-                phone.setText(user.getMobilePhoneNumber());
-            }
-            if (user.getEmail() != "") {
-                email.setText(user.getEmail());
-            }
-        } else {
-            Toast.makeText(getActivity(), "尚未登录", Toast.LENGTH_LONG).show();
+        // 获取用户信息
+        User user = BmobUser.getCurrentUser(User.class);
+        username.setText(user.getUsername());
+        if (user.getStu_num() != null) {
+            stu_num.setText(user.getStu_num());
         }
+        if (user.getMobilePhoneNumber() != null) {
+            phone.setText(user.getMobilePhoneNumber());
+        }
+        if (user.getEmail() != null) {
+            email.setText(user.getEmail());
+        }
+        if (user.getPortrait_url() != null) {
+            Glide.with(this)
+                    .load(user.getPortrait_url())
+                    .override(500,500)
+                    .centerCrop()
+                    .into(portrait);
+        } else {
+            Glide.with(this)
+                    .load(default_portrait_url)
+                    .override(500, 500)
+                    .centerCrop()
+                    .into(portrait);
+            email.setText("bbb");
+        }
+
 
         // 退出登录
         login_out_btn.setOnClickListener(new View.OnClickListener() {
@@ -116,5 +131,6 @@ public class MyFragment extends Fragment {
         modify_person = getActivity().findViewById(R.id.modify_person);
         create_goods =getActivity().findViewById(R.id.create_goods);
         my_goods = getActivity().findViewById(R.id.my_goods);
+        portrait = getActivity().findViewById(R.id.portrait);
     }
 }
