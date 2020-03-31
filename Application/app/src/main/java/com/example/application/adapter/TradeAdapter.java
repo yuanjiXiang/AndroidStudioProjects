@@ -28,12 +28,12 @@ public class TradeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder >
         this.trade = trade;
     }
 
-    class RecyclerViewHolder extends RecyclerView.ViewHolder {
+    static class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView description, price;
-        public ImageView imageView;
+        TextView description, price;
+        ImageView imageView;
 
-        public RecyclerViewHolder(@NonNull View itemView, int view_type) {
+        RecyclerViewHolder(@NonNull View itemView, int view_type) {
             super(itemView);
 
             if (view_type == 0) {
@@ -48,11 +48,9 @@ public class TradeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder >
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.trade_item_layout,parent,false);
-        if (viewType == 0) {
-            return new RecyclerViewHolder(view, 0);
-        } else {
-            return null;
-        }
+
+        return new RecyclerViewHolder(view, 0);
+
     }
 
     @Override
@@ -70,13 +68,10 @@ public class TradeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder >
                 .into(recyclerViewHolder.imageView);
 
         // 点击物品，进入物品详情页，包括物品发布者信息
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, Goods_owner_info.class);
-                intent.putExtra("id",trade1.getObjectId());
-                context.startActivity(intent);
-            }
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, Goods_owner_info.class);
+            intent.putExtra("id",trade1.getObjectId());
+            context.startActivity(intent);
         });
     }
 

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav"
-    app:startDestination="@id/infoFragment">
+    app:startDestination="@id/firstFragment">
 
     <fragment
         android:id="@+id/infoFragment"
@@ -26,6 +26,12 @@
         <action
             android:id="@+id/action_myFragment_to_personalGoodsFragment"
             app:destination="@id/personalGoodsFragment" />
+        <action
+            android:id="@+id/action_myFragment_to_personalDataFragment"
+            app:destination="@id/personalDataFragment" />
+        <action
+            android:id="@+id/action_myFragment_to_confessionFragment"
+            app:destination="@id/confessionFragment" />
     </fragment>
     <fragment
         android:id="@+id/personalInfoFragment"
@@ -37,4 +43,19 @@
         android:name="com.example.application.personal.PersonalGoodsFragment"
         android:label="fragment_personal_goods"
         tools:layout="@layout/fragment_personal_goods" />
+    <fragment
+        android:id="@+id/firstFragment"
+        android:name="com.example.application.ui.FirstFragment"
+        android:label="fragment_first"
+        tools:layout="@layout/fragment_first" />
+    <fragment
+        android:id="@+id/personalDataFragment"
+        android:name="com.example.application.personal.PersonalDataFragment"
+        android:label="fragment_personal_data"
+        tools:layout="@layout/fragment_personal_data" />
+    <fragment
+        android:id="@+id/confessionFragment"
+        android:name="com.example.application.personal.ConfessionFragment"
+        android:label="fragment_confession"
+        tools:layout="@layout/fragment_confession" />
 </navigation>

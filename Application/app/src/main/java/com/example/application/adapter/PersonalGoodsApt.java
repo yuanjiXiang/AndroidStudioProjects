@@ -50,8 +50,6 @@ public class PersonalGoodsApt extends RecyclerView.Adapter<RecyclerView.ViewHold
                 description = itemView.findViewById(R.id.p_goods_desc);
                 price = itemView.findViewById(R.id.p_goods_price);
                 imageView = itemView.findViewById(R.id.personal_goods_img);
-//                delete_btn = itemView.findViewById(R.id.delete);
-//                update_btn = itemView.findViewById(R.id.update);
             }
         }
     }

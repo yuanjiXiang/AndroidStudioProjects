@@ -4,8 +4,10 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
@@ -18,6 +20,7 @@ import com.example.application.adapter.InfoAdapter;
 import com.example.application.bean.Info;
 
 import java.util.List;
+import java.util.Objects;
 
 import cn.bmob.v3.Bmob;
 import cn.bmob.v3.BmobQuery;
@@ -29,34 +32,13 @@ import cn.bmob.v3.listener.FindListener;
  */
 public class InfoFragment extends Fragment {
     private RecyclerView rv;
-    private SwipeRefreshLayout swipe;
-    List<Info> data;
+    private List<Info> infoList;
     private InfoAdapter infoAdapter;
 
     private void initView() {
-        rv = getActivity().findViewById(R.id.recyclerView);
-        swipe = getActivity().findViewById(R.id.swipe);
+        rv = Objects.requireNonNull(getActivity()).findViewById(R.id.recyclerViewInfo);
     }
 
-    private void Refresh() {
-        BmobQuery<Info> Po = new BmobQuery<>();
-        Po.order("-updatedAt");
-        Po.setLimit(1000);
-        Po.findObjects(new FindListener<Info>() {
-            @Override
-            public void done(List<Info> list, BmobException e) {
-                if (e == null) {
-                    data = list;
-                    infoAdapter = new InfoAdapter(getActivity(),data);
-                    rv.setLayoutManager(new LinearLayoutManager(getActivity()));
-                    rv.setAdapter(infoAdapter);
-                } else {
-                    swipe.setRefreshing(false);
-                    Toast.makeText(getActivity(),"获取数据失败"+e.toString(),Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,14 +51,22 @@ public class InfoFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        Bmob.initialize(getActivity(), "9d17f643cf72354bae0d2fddfd037a2a");
         initView();
-        Refresh();
-        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        BmobQuery<Info> Po = new BmobQuery<>();
+        Po.order("-updatedAt");
+//        final GridLayoutManager layoutManager2 = new GridLayoutManager(getContext(),1);
+        StaggeredGridLayoutManager layoutManager=new StaggeredGridLayoutManager( 1,StaggeredGridLayoutManager.VERTICAL );
+        Po.findObjects(new FindListener<Info>() {
             @Override
-            public void onRefresh() {
-                Refresh();
-                swipe.setRefreshing(false);
+            public void done(List<Info> list, BmobException e) {
+                if (e == null) {
+                    infoList = list;
+                    infoAdapter = new InfoAdapter(infoList);
+                    rv.setAdapter(infoAdapter);
+                    rv.setLayoutManager(layoutManager);
+                } else {
+                    Toast.makeText(getActivity(),"获取数据失败"+e.toString(),Toast.LENGTH_LONG).show();
+                }
             }
         });
     }

@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.example.application.MainActivity;
 import com.example.application.R;
 import com.example.application.bean.Trade;
 import com.example.application.bean.User;
@@ -80,32 +81,51 @@ public class Goods_detail extends AppCompatActivity {
         submit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Trade trade = new Trade();
-                trade.setDescription(goods_desc.getText().toString());
-                trade.setPrice(goods_price.getText().toString());
-                trade.setUser(BmobUser.getCurrentUser(User.class));
+                final Trade trade = new Trade();
 
                 // 如果图片更改了
                 if (is_change_pic[0]) {
                     // 先上传图片，获取图片地址
-                    BmobFile bmobFile = new BmobFile(new File(pictureBean.getPath()));
+                    final BmobFile bmobFile = new BmobFile(new File(pictureBean.getPath()));
+
                     bmobFile.uploadblock(new UploadFileListener() {
                         @Override
                         public void done(BmobException e) {
+                            trade.setDescription(goods_desc.getText().toString());
+                            trade.setPrice(goods_price.getText().toString());
+                            trade.setUser(BmobUser.getCurrentUser(User.class));
+                            trade.setImg_url(bmobFile.getFileUrl());
+
+                            // 提交
+                            trade.update(id, new UpdateListener() {
+                                @Override
+                                public void done(BmobException e) {
+                                    if (e == null) {
+                                        Toast.makeText(getApplicationContext(), "修改成功", Toast.LENGTH_SHORT).show();
+                                        startActivity(new Intent(Goods_detail.this, MainActivity.class));
+                                    }
+                                }
+                            });
                         }
                     });
-                    trade.setImg_url(bmobFile.getFileUrl());
                 }
 
-                // 提交
-                trade.update(id, new UpdateListener() {
-                    @Override
-                    public void done(BmobException e) {
-                        if (e == null) {
-                            Toast.makeText(getApplicationContext(), "修改成功", Toast.LENGTH_SHORT).show();
+                else {
+                    trade.setDescription(goods_desc.getText().toString());
+                    trade.setPrice(goods_price.getText().toString());
+                    trade.setUser(BmobUser.getCurrentUser(User.class));
+
+                    // 提交
+                    trade.update(id, new UpdateListener() {
+                        @Override
+                        public void done(BmobException e) {
+                            if (e == null) {
+                                Toast.makeText(getApplicationContext(), "修改成功", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(Goods_detail.this, MainActivity.class));
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
         });
 

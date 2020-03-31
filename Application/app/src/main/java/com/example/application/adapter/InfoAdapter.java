@@ -1,6 +1,5 @@
 package com.example.application.adapter;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,29 +15,24 @@ import java.util.List;
 
 
 public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private Context context;
     private List<Info> data;
 
-    public InfoAdapter(Context context, List<Info> data) {
-        this.context = context;
+    public InfoAdapter(List<Info> data) {
         this.data = data;
     }
 
-    class RecyclerViewHolder extends RecyclerView.ViewHolder {
+    static class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView title, content, author, time;
-        public TextView loading;
+        TextView title, content, author, time;
 
-        public RecyclerViewHolder(@NonNull View itemView, int view_type) {
+        RecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
-            if (view_type == 0) {
-                title = itemView.findViewById(R.id.title);
-                content = itemView.findViewById(R.id.content);
-                time = itemView.findViewById(R.id.time);
-                author = itemView.findViewById(R.id.author);
-            } else {
-                loading = itemView.findViewById(R.id.loading);
-            }
+
+            title = itemView.findViewById(R.id.title);
+            content = itemView.findViewById(R.id.content);
+            time = itemView.findViewById(R.id.time);
+            author = itemView.findViewById(R.id.author);
+
         }
     }
 
@@ -47,19 +41,14 @@ public class InfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_layout,parent,false);
-        View loading_view = LayoutInflater.from(parent.getContext()).inflate(R.layout.loading_layout,parent,false);
-        if (viewType  == 1) {
-            return new RecyclerViewHolder(loading_view, 1); // 返回正在加载中
-        } else {
-            return new RecyclerViewHolder(view, 0); // 返回加载完成的item
-        }
+        return new RecyclerViewHolder(view); // 返回加载完成的item
     }
 
 
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        final RecyclerViewHolder recyclerViewHolder = (RecyclerViewHolder) holder;
+        final InfoAdapter.RecyclerViewHolder recyclerViewHolder = (InfoAdapter.RecyclerViewHolder) holder;
         final Info info = data.get(position);
 
         recyclerViewHolder.title.setText(info.getTitle());

@@ -21,16 +21,6 @@
         app:layout_constraintTop_toBottomOf="@+id/myPublish" />
 
     <View
-        android:id="@+id/divider4"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="?android:attr/listDivider"
-        app:layout_constraintBottom_toBottomOf="@+id/my_goods"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/create_goods" />
-
-    <View
         android:id="@+id/divider5"
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -95,7 +85,7 @@
         android:text="管理发布"
         android:textAlignment="textStart"
         android:textColor="#E6646464"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline7"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/modify_person" />
 
@@ -117,7 +107,7 @@
         android:text="管理商品"
         android:textAlignment="textStart"
         android:textColor="#E6646464"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline7"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/create" />
 
@@ -131,10 +121,10 @@
         android:text="新建发布"
         android:textAlignment="textStart"
         android:textColor="#E6646464"
+        app:layout_constraintBottom_toBottomOf="@+id/myPublish"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/myPublish" />
+        app:layout_constraintStart_toStartOf="@+id/guideline7" />
 
     <TextView
         android:id="@+id/textView7"
@@ -198,9 +188,25 @@
         android:text="修改个人信息"
         android:textAlignment="textStart"
         android:textColor="#E6646464"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline7"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+    <Button
+        android:id="@+id/modify_confession"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="52dp"
+        android:background="@null"
+        android:backgroundTint="#FFFFFF"
+        android:text="修改表白信息"
+        android:textAlignment="textStart"
+        android:textColor="#E6646464"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline7"
+        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
 
     <View
         android:id="@+id/divider"
@@ -229,9 +235,9 @@
         android:text="新建商品"
         android:textAlignment="textStart"
         android:textColor="#E6646464"
+        app:layout_constraintBottom_toBottomOf="@+id/my_goods"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/my_goods" />
+        app:layout_constraintStart_toStartOf="@+id/guideline7" />
 
     <ImageView
         android:id="@+id/portrait"
@@ -243,6 +249,43 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <Button
+        android:id="@+id/my_data"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
+        android:background="@null"
+        android:backgroundTint="#FFFFFF"
+        android:text="管理资料"
+        android:textAlignment="textStart"
+        android:textColor="#E6646464"
+        app:layout_constraintEnd_toStartOf="@+id/guideline7"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/my_goods" />
+
+    <Button
+        android:id="@+id/create_data"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
+        android:background="@null"
+        android:backgroundTint="#FFFFFF"
+        android:text="上传资料"
+        android:textAlignment="textStart"
+        android:textColor="#E6646464"
+        app:layout_constraintBottom_toBottomOf="@+id/my_data"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline7" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -52,7 +52,6 @@ public class PersonalGoodsFragment extends Fragment {
                     personalGoodsApt = new PersonalGoodsApt(data, getContext());
                     recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                     recyclerView.setAdapter(personalGoodsApt);
-//                    Toast.makeText(getActivity(),"获取成功",Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(getActivity(),"获取失败"+e.getErrorCode(), Toast.LENGTH_LONG).show();
                 }

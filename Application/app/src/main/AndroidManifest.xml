@@ -39,6 +39,7 @@
         <activity android:name=".personal.CreateGoods"/>
         <activity android:name=".personal.Goods_detail"/>
         <activity android:name=".personal.Goods_owner_info"/>
+        <activity android:name=".personal.CreateData"/>
 
 
         <provider

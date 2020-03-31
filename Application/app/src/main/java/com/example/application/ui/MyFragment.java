@@ -19,9 +19,12 @@ import com.bumptech.glide.Glide;
 import com.example.application.LoginPage;
 import com.example.application.R;
 import com.example.application.bean.User;
+import com.example.application.personal.CreateData;
 import com.example.application.personal.CreateGoods;
 import com.example.application.personal.CreateInfo;
 import com.example.application.personal.ModifyPersonalInfo;
+
+import java.util.Objects;
 
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.http.I;
@@ -34,8 +37,8 @@ public class MyFragment extends Fragment {
 
     private TextView username, stu_num, phone, email;
     private Button login_out_btn, myPublish, create_btn, modify_person, create_goods, my_goods;
+    private Button modify_confession, create_data, my_data;
     private ImageView portrait;
-    private String default_portrait_url = "https://bmob-cdn-27983.bmobpay.com/2020/03/24/cf447d164086182c80f53ba88700c410.jpg";
 
 
     @Override
@@ -67,61 +70,52 @@ public class MyFragment extends Fragment {
         if (user.getPortrait_url() != null) {
             Glide.with(this)
                     .load(user.getPortrait_url())
-                    .override(500,500)
+                    .override(400,400)
                     .centerCrop()
                     .into(portrait);
         } else {
+            String default_portrait_url = "https://bmob-cdn-27983.bmobpay.com/2020/03/24/cf447d164086182c80f53ba88700c410.jpg";
             Glide.with(this)
                     .load(default_portrait_url)
-                    .override(500, 500)
+                    .override(400, 400)
                     .centerCrop()
                     .into(portrait);
-            email.setText("bbb");
         }
 
 
         // 退出登录
-        login_out_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                BmobUser.logOut();
-                startActivity(new Intent(getActivity(), LoginPage.class));
-            }
+        login_out_btn.setOnClickListener(v -> {
+            BmobUser.logOut();
+            startActivity(new Intent(getActivity(), LoginPage.class));
         });
 
         // 进入修改个人信息页面
-        modify_person.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getContext(), ModifyPersonalInfo.class));
-            }
-        });
+        modify_person.setOnClickListener(v -> startActivity(new Intent(getContext(), ModifyPersonalInfo.class)));
 
         // 进入个人文章详情页
         myPublish.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_myFragment_to_personalInfoFragment, null));
 
         // 进入新建文章页面
-        create_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getContext(), CreateInfo.class));
-            }
-        });
+        create_btn.setOnClickListener(v -> startActivity(new Intent(getContext(), CreateInfo.class)));
 
 
         // 进入新建商品页面
-        create_goods.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getContext(), CreateGoods.class));
-            }
-        });
+        create_goods.setOnClickListener(v -> startActivity(new Intent(getContext(), CreateGoods.class)));
 
         // 进入我的商品页
         my_goods.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_myFragment_to_personalGoodsFragment,null));
+
+        // 进入新建文件页
+        create_data.setOnClickListener(v -> startActivity(new Intent(getContext(), CreateData.class)));
+
+        // 进入我的文件页
+        my_data.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_myFragment_to_personalDataFragment,null));
+
+        // 进入表白管理页
+        modify_confession.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_myFragment_to_confessionFragment,null));
     }
     private void initUI(){
-        username = getActivity().findViewById(R.id.username);
+        username = Objects.requireNonNull(getActivity()).findViewById(R.id.username);
         login_out_btn = getActivity().findViewById(R.id.login_out_btn);
         myPublish = getActivity().findViewById(R.id.myPublish);
         create_btn = getActivity().findViewById(R.id.create);
@@ -132,5 +126,8 @@ public class MyFragment extends Fragment {
         create_goods =getActivity().findViewById(R.id.create_goods);
         my_goods = getActivity().findViewById(R.id.my_goods);
         portrait = getActivity().findViewById(R.id.portrait);
+        modify_confession = getActivity().findViewById(R.id.modify_confession);
+        my_data = getActivity().findViewById(R.id.my_data);
+        create_data = getActivity().findViewById(R.id.create_data);
     }
 }

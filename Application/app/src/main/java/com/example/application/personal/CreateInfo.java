@@ -60,6 +60,6 @@ public class CreateInfo extends AppCompatActivity {
     private void initUI(){
         title = findViewById(R.id.title);
         content = findViewById(R.id.content);
-        submit_btn = findViewById(R.id.submit);
+        submit_btn = findViewById(R.id.update);
     }
 }

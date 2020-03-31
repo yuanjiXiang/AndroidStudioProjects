@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,7 +26,6 @@ import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.UpdateListener;
 import cn.bmob.v3.listener.UploadFileListener;
-import cn.bmob.v3.util.V;
 
 /**
  * 个人信息修改页
@@ -37,7 +37,6 @@ public class ModifyPersonalInfo extends AppCompatActivity {
     private Button submit_btn;
     private ImageView portrait;
     PictureBean pictureBean;
-    private String default_portrait_url = "https://bmob-cdn-27983.bmobpay.com/2020/03/24/cf447d164086182c80f53ba88700c410.jpg";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,13 +58,14 @@ public class ModifyPersonalInfo extends AppCompatActivity {
         if (user.getPortrait_url() != null) {
             Glide.with(this)
                     .load(user.getPortrait_url())
-                    .override(500, 500)
+                    .override(400, 400)
                     .centerCrop()
                     .into(portrait);
         } else {
+            String default_portrait_url = "https://bmob-cdn-27983.bmobpay.com/2020/03/24/cf447d164086182c80f53ba88700c410.jpg";
             Glide.with(this)
                     .load(default_portrait_url)
-                    .override(500, 500)
+                    .override(400, 400)
                     .centerCrop()
                     .into(portrait);
         }
@@ -84,37 +84,51 @@ public class ModifyPersonalInfo extends AppCompatActivity {
         submit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                User user = BmobUser.getCurrentUser(User.class);
-//                user.setStu_num(stu_num.getText().toString());
-//                user.setMobilePhoneNumber(phone.getText().toString());
-//                user.setEmail(email.getText().toString());
+                final User user = BmobUser.getCurrentUser(User.class);
 
                 // 如果图片更改了
-//                if (is_change_pic[0]) {
-                    // 先上传图片，获取图片地址
-                    BmobFile bmobFile = new BmobFile(new File(pictureBean.getPath()));
+                if (is_change_pic[0]) {
+//                     先上传图片，获取图片地址
+                    final BmobFile bmobFile = new BmobFile(new File(pictureBean.getPath()));
                     bmobFile.uploadblock(new UploadFileListener() {
                         @Override
                         public void done(BmobException e) {
+                            user.setStu_num(stu_num.getText().toString());
+                            user.setMobilePhoneNumber(phone.getText().toString());
+                            user.setEmail(email.getText().toString());
+                            user.setPortrait_url(bmobFile.getFileUrl());
+
+                            user.update(user.getObjectId(), new UpdateListener() {
+                                @Override
+                                public void done(BmobException e) {
+                                    if (e == null) {
+                                        Toast.makeText(getApplicationContext(), "修改成功", Toast.LENGTH_SHORT).show();
+                                        
+                                        startActivity(new Intent(ModifyPersonalInfo.this, MainActivity.class));
+                                    }
+                                }
+                            });
                         }
                     });
-//                    user.setPortrait_url(bmobFile.getFileUrl());
-//                }
-
-//                user.update(user.getObjectId(), new UpdateListener() {
-//                    @Override
-//                    public void done(BmobException e) {
-//                        if (e == null) {
-//                            startActivity(new Intent(ModifyPersonalInfo.this, MainActivity.class));
-//                        } else {
-//                            stu_num.setText("失败" + e.toString());
-//                        }
-//                    }
-//                });
-
+                }
+                else {
+                    user.setStu_num(stu_num.getText().toString());
+                    user.setMobilePhoneNumber(phone.getText().toString());
+                    user.setEmail(email.getText().toString());
+                    user.update(user.getObjectId(), new UpdateListener() {
+                        @Override
+                        public void done(BmobException e) {
+                            if (e == null) {
+                                Toast.makeText(getApplicationContext(), "修改成功", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(ModifyPersonalInfo.this, MainActivity.class));
+                            }
+                        }
+                    });
+                }
             }
         });
     }
+
 
     // 图片选择回调
     @Override
@@ -131,11 +145,12 @@ public class ModifyPersonalInfo extends AppCompatActivity {
             }
         }
     }
-        private void initUI() {
+    // 获取界面组件
+    private void initUI() {
         stu_num = findViewById(R.id.stu_num);
         phone = findViewById(R.id.phone);
         email = findViewById(R.id.email);
-        submit_btn = findViewById(R.id.submit);
+        submit_btn = findViewById(R.id.update);
         portrait = findViewById(R.id.portrait);
     }
 }
